@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Speed Test</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-image: url("https://lh3.googleusercontent.com/pw/AP1GczMhRvilZ4O8FJvg43frJVWBCOzKnztdGZ0PITvm3-liaCpXWY6QIyYTiv75Q7gHDzHtrIGFWdeaa1xr7fu7yQFF_FoqfBEyXZ8uDFVptghoX-VgiXY=w2400") ;
+    }
+    div {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+      position: relative; /* Added position relative */
+    }
+    .container {
+      padding: 33px;
+      position: relative; /* Added position relative */
+    }
+    .test-text {
+      font-size: 24px;
+      color: white; /* Make the text slightly transparent */
+      line-height: 0;
+      position: relative; /* Added position relative */
+    }
+
+    .user-input {
+      font-size: 24px;
+      border: none;
+      outline: none;
+      width: 100%;
+      padding: 20px; /* Remove padding for overlay */
+      padding-left: 30px;
+      position: absolute; /* Overlap the test text */
+      top: 0; /* Align to top of the test text */
+      left: 0;
+      background-color: transparent; /* Make background invisible */
+      z-index: 1; /* Ensure input is above the text */
+    } 
+    .user-input + label {
+      color: rgba(128, 128, 128, 0.836);
+      font-size: 24px;
+      border: none;
+      outline: none;
+      width: 100%;
+      padding: 20px; /* Remove padding for overlay */
+      padding-left: 30px;
+      position: absolute; /* Overlap the test text */
+      top: 0; /* Align to top of the test text */
+      left: 0;
+      background-color: transparent; /* Make background invisible */
+    }
+    .results {
+      font-size: 22px;
+      color: grey;
+      margin-top: -300px;
+      padding: 10px;
+      position: absolute;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="test-text"></div> <!-- Changed <p> to <div> for better positioning -->
+    <input type="text" class="user-input" autofocus>
+    <label class="label" for="user-input" id="user-input">hi</label>
+  </div>
+  <div class="results">Typing Test Speed</div>
+
+  <script>
+    const testText = document.querySelector('.test-text');
+    const userInput = document.querySelector('.user-input');
+    const results = document.querySelector('.results');
+
+    let startTime, endTime, typedWords;
+
+    // List of more common words (replace or add to this list)
+    const wordList = ["the", "of", "and", "to", "a", "in", "for", "is", "on", "that", "by", "this", "with", "i", "you", "it", "not", "or", "be", "are", "from", "at", "as", "your", "all", "have", "get", "which", "our", "an", "first", "would", "but", "they", "will", "how", "has", "we", "when", "their", "can", "like", "time", "no", "just", "him", "know", "take", "people", "into", "year", "your", "good", "some", "could", "them", "see", "other", "than", "then", "now", "look", "only", "come", "its", "over", "think", "also", "back", "after", "use", "two", "how", "our", "work", "first", "well", "way", "even", "new", "want", "because", "any", "these", "give", "day", "most", "us"];
+
+    function generateRandomText() {
+      const numWords = Math.floor(Math.random() * 8) + 17; // Generate 20-29 random words
+      let randomText = "";
+      for (let i = 0; i < numWords; i++) {
+        const randomIndex = Math.floor(Math.random() * wordList.length);
+        randomText += wordList[randomIndex] + " ";
+      }
+      testText.textContent = randomText.trim();
+    const label = document.querySelector('.label'); // Select the label element here
+    label.textContent = randomText.trim();
+      startTime = new Date().getTime(); // Record start time
+    }
+
+    userInput.addEventListener('input', () => {
+  const typedText = userInput.value.trim();
+  let wordCount = 0;
+  for (let i = 0; i < typedText.length; i++) {
+    if (typedText[i] === ' ') {
+      wordCount++;
+    }
+  }
+  wordCount++; // Add 1 for the last word
+  typedWords = wordCount;
+  if (typedText === testText.textContent.trim()) {
+        endTime = new Date().getTime(); // Record end time
+        const elapsedTime = (endTime - startTime) / 1000; // Calculate elapsed time in seconds
+        const wordsPerMinute = Math.round((typedWords / elapsedTime) * 60); // Calculate words per minute
+        results.textContent = `You typed ${wordsPerMinute} WPM`;
+      }
+    });
+
+    generateRandomText(); // Generate initial random text
+    userInput.focus(); // Set focus on the input field
+  </script>
+</body>
+</html>
